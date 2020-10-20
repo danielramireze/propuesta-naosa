@@ -15,16 +15,34 @@
             <h2><b>Cliente: </b><span>{{currentService.customer }}</span></h2>
             <h2><b>Unidad:</b> <span>{{currentService.carModel }}</span></h2>
             <h2 *ngIf="currentService.tec"><b>Tecnico:</b> <span>{{currentService.tec }}</span></h2>
-            <h2 ><b>Fecha estimada de entrega:</b> <span>{{currentService.stimateTimestamp | date}}</span></h2>
+            <h2><b>Fecha estimada de entrega:</b> <span>{{currentService.stimateTimestamp | date}}</span></h2>
         </div>
         <div class="col-sm-12 col-md-6">
             <h2><b>Horario: </b> <span>{{currentService.timestamp | date:"h:mma"}}</span></h2>
             <div class="row">
                 <h2><b>Estatus: </b> <span>{{currentService.status }}</span></h2>
+                <mat-form-field style="width:200px; margin-left: 15px;">
+                    <mat-label style="font-size: 15px;">Cambiar estado</mat-label>
+                    <mat-select style="min-width: 200px; min-height: 20px; font-size: 15px;">
+                        <mat-option [value]="status.name" *ngFor="let status of statusOptions"
+                            (click)="statusChange(status.name)">
+                            {{status.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
             <h2><b>Id Servicio: </b> <span>{{currentService.id}}</span></h2>
             <h2 *ngIf="currentService.asesor"><b>Asesor:</b> <span>{{currentService.asesor }}</span></h2>
-            <h2 *ngIf="currentService.coments"><b>Comentarios Adicionales:</b> <span>{{currentService.coments }}</span></h2>
+            <h2 *ngIf="currentService.coments"><b>Comentarios Adicionales:</b> <p><span>{{currentService.coments }}</span></p>
+            </h2>
+            <div [formGroup]="form"  class="row" >
+                <h2><b>Comentarios</b></h2>
+                <mat-form-field appearance="fill" style="margin-left: 20px; width: 200px;">
+                    <mat-label>Textarea</mat-label>
+                    <textarea matInput  formControlName="coments"></textarea>
+                </mat-form-field>
+                <button (click)="comentsUpdate()" style="margin-left: 20px;" mat-flat-button color="primary">Actualizar los comentarios</button>
+            </div>
         </div>
     </div>
 
