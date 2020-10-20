@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { reference } from '@popperjs/core';
 import { Service } from '../models/service';
 
 @Injectable({
@@ -33,6 +34,31 @@ export class CustomerService {
         value.changes.push({ timestamp: now.getTime(), newTimestamp: timestamp });
         value.timestamp = timestamp;
       });
+  }
+
+  updateStatus(serviceID: string, status: string): Promise<any> {
+    let now = new Date();
+
+    return this.database.database.ref(`services/${serviceID}`)
+      .transaction(function (value: Service) {
+        if (!value) return value;
+        if (!value.HStatus) value.HStatus = [];
+        value.HStatus.push({ timestamp: Number(now), status: status });
+        value.status=status;
+        return value;
+      });
+  }
+
+  updateComents(serviceID: string, coments: string): Promise<any> {
+
+    return this.database.database.ref(`services/${serviceID}`)
+      .transaction(function (value: Service) {
+        if (!value) return value;
+        if (!value.coments) value.coments = "";
+        value.coments=coments;
+        return value;
+      });
+      
   }
 
   delete(serviceID: string) {
