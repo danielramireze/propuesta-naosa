@@ -1,0 +1,20 @@
+.text-center mat-form-field{
+    margin-top: 30px;
+    width: 100%;
+}
+.text-center h2{
+    margin-top: 20px;
+    color: #2d2d2d;
+}
+.customer-buttons{
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (min-width: 769px) {
+    .text-center mat-form-field{
+        margin-top: 30px;
+        width: 70%;
+    }
+}
+

@@ -1,0 +1,34 @@
+<div *ngIf="dateID" class="container">
+    <div class="row">
+        <div class="col-12">
+            <div>
+                <qrcode class="text-center" [qrdata]="dateID" [size]="256" [level]="'M'" usesvg="true" [scale]="scale"
+                    colorDark="#1c1c1c"></qrcode>
+            </div>
+            <h1 class="h1-title text-center">Solicitud de Servicio</h1>
+        </div>
+    </div>
+
+    <div class="row service-data">
+        <div class="col-sm-12 col-md-6">
+            <h2>Fecha: <span>20 de Octubre del 2020</span></h2>
+            <h2>Cliente: <span>Carlos Pratt Medrano</span></h2>
+            <h2>Unidad: <span>Chevrolet Onix</span></h2>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <h2><b>Horario: </b> <span>12:20 P.M.</span></h2>
+            <h2><b>Estatus: </b> <span>Esperando cita</span></h2>
+            <h2><b>Estatus: </b> <span>Esperando cita</span></h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div id="customer-buttons" class="col-12 text-center">
+                <button routerLink="/servicio/editar/{{dateID}}" mat-flat-button color="primary">Cambiar fecha</button>
+                <button mat-flat-button color="warn">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+</div>
