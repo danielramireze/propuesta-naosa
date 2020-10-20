@@ -1,0 +1,32 @@
+* {
+    /* Calculation */
+    --responsive: calc((var(--min-font) * 1px) + (var(--max-font) - var(--min-font)) * ((100vw - 420px) / (1200 - 420))); /* Ranges from 421px to 1199px */
+}
+
+.h1-title {
+    --max-font: 34;
+    --min-font: 23;
+    font-size: var(--responsive);
+}
+#customer-buttons button{
+    margin: 20px;
+}
+.service-data{
+    margin-top: 20px;
+}
+.service-data span {
+    font-size: 16px;
+    font-weight: 300;
+}
+.service-data div{
+    text-align: center;
+}
+
+@media (min-width: 769px) {
+    .service-data div:nth-child(1) {
+        text-align: right;
+      }
+    .service-data div:nth-child(2) {
+      text-align: left;
+    }
+}

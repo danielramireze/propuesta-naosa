@@ -1,0 +1,51 @@
+<div *ngIf="dateID" class="container">
+    <div class="row">
+        <div class="col-12">
+            <!--  <div>
+                <qrcode class="text-center" [qrdata]="dateID" [size]="256" [level]="'M'" usesvg="true" [scale]="scale"
+                    colorDark="#1c1c1c"></qrcode>
+            </div> -->
+            <h1 class="h1-title text-center">Informacion de Servicio</h1>
+        </div>
+    </div>
+
+    <div class="row service-data" *ngIf="currentService">
+        <div class="col-sm-12 col-md-6">
+            <h2><b>Fecha: </b><span>{{currentService.timestamp | date}}</span></h2>
+            <h2><b>Cliente: </b><span>{{currentService.customer }}</span></h2>
+            <h2><b>Unidad:</b> <span>{{currentService.carModel }}</span></h2>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <h2><b>Horario: </b> <span>{{currentService.timestamp | date:"h:mma"}}</span></h2>
+            <div class="row">
+                <h2><b>Estatus: </b> <span>{{currentService.status }}</span></h2>
+                <mat-form-field appearance="fill">
+                    <mat-label style="font-size: 30px;">Cambiar Estatus</mat-label>
+                    <mat-select style="min-width: 200px; min-height: 40px; font-size: 25px;">
+                        <mat-option *ngFor="let status of statusOptions" (click)="statusChange(status)"
+                            [value]="status">
+                            {{status.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <h2><b>Id Servicio: </b> <span>{{currentService.id}}</span></h2>
+        </div>
+    </div>
+
+    <div class="row service-data" *ngIf="!currentService">
+        <div class="col-sm-12 col-md-7">
+            <h2>No hay datos para mostrar</h2>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="currentService && currentService.status=='waiting'">
+        <div class="col-12">
+            <div id="customer-buttons" class="col-12 text-center">
+                <button routerLink="/servicio/editar/{{dateID}}" mat-flat-button color="primary">Cambiar fecha</button>
+                <button mat-flat-button color="warn">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+</div>
