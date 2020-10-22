@@ -27,8 +27,7 @@
             <h2>No hay datos para mostrar</h2>
         </div>
     </div>
-
-    <div class="row" *ngIf="currentService && currentService.status=='waiting'">
+    <div class="row" *ngIf="currentService && currentService.status=='En espera de cita'">
         <div class="col-12">
             <div id="customer-buttons" class="col-12 text-center">
                 <button routerLink="/servicio/editar/{{dateID}}" mat-flat-button color="primary">Cambiar fecha</button>

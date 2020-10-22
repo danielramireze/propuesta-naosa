@@ -3,6 +3,7 @@ export class Service {
     id: number;
     carModel: string;
     customer: string;
+    customerMail:string;
     HStatus: {
         status:string;
         timestamp: number;

@@ -19,27 +19,30 @@ export class ServiceAdminComponent implements OnInit {
   });
 
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+  files: File[] = [];
   dateID = null;
   scale = 5;
   currentService: Service;
+  timeLine:boolean=false;
   statusOptions = [
-    { id: 0, name: "Cita asignada" },
-    { id: 1, name: "En Registro Linea de Servicio" },
-    { id: 2, name: "En Sevicio (Multipuntos)" },
-    { id: 3, name: "En Sevicio (En Espera de Autorizaion)" },
-    { id: 4, name: "En Sevicio (En Espera de Refacciones)" },
-    { id: 5, name: "En Sevicio (En Proceso)" },
-    { id: 6, name: "En Lavado" },
-    { id: 7, name: "En Control de Calidad" },
-    { id: 8, name: "Listo Para Entrega" },
-    { id: 9, name: "Entregado" },
+    { id: 0, name: "En espera de cita" },
+    { id: 1, name: "Cita asignada" },
+    { id: 2, name: "En Registro Linea de Servicio" },
+    { id: 3, name: "En Sevicio (Multipuntos)" },
+    { id: 4, name: "En Sevicio (En Espera de Autorizaion)" },
+    { id: 5, name: "En Sevicio (En Espera de Refacciones)" },
+    { id: 6, name: "En Sevicio (En Proceso)" },
+    { id: 7, name: "En Lavado" },
+    { id: 8, name: "En Control de Calidad" },
+    { id: 9, name: "Listo Para Entrega" },
+    { id: 10, name: "Entregado" },
   ]
   /*   Asesor de servicios-
     - Técnico que lo este trabajando-
     - Estatus-
     - Añadir linea de estados-
     - Fecha y hora de entrega estimada (Es un caampo de la base de datos)-
-    - Accedder a fotos de inventario
+    - Accedder a fotos de inventario-
     - Comentarios adicionales-
     - Agregar firma de cotizacion 
     - Agregar cotizacion en PDF */
@@ -64,6 +67,7 @@ export class ServiceAdminComponent implements OnInit {
     );
 
   }
+
 
   initForm() {
     this.form.setValue({
@@ -102,7 +106,7 @@ export class ServiceAdminComponent implements OnInit {
     );
   }
 
-  comentsUpdate() {
+  comentsUpdate() {//actualizar comentarios
     if (this.form.get("coments").value) {
 
       this.customerService.updateComents(this.currentService.fid, this.form.get("coments").value);
@@ -115,5 +119,22 @@ export class ServiceAdminComponent implements OnInit {
 
     }
 
+  }
+
+  //drop zone
+  onSelect(event) {
+    console.log(event);
+    this.files.push(...event.addedFiles);
+  }
+   
+  onRemove(event) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  //linea de tiempo
+  
+  viewList(){//boleano para mostrar la linea de tiempo completa o solo los ultimos 2
+    this.timeLine=!this.timeLine;
   }
 }

@@ -1,5 +1,33 @@
-<div *ngIf="dateID" class="container">
-    <div class="row">
+<div *ngIf="dateID" class="container" >
+    <div class="page" *ngIf="currentService">
+        <div class="timeline">
+            <div *ngFor="let item of currentService.HStatus.reverse() let i = index" class="timeline__group">
+                <div *ngIf="i==0 || i==1 || timeLine==true">
+                <span class="timeline__year time" aria-hidden="true">{{item.timestamp | date}}</span>
+                <div class="timeline__cards">
+                    <div class="timeline__card card">
+                        <header class="card__header">
+                            <time class="time" datetime="2008-02-02">
+                                <span class="time__day">{{item.timestamp | date:"h:mma"}}</span>
+                            </time>
+                        </header>
+                        <div class="card__content">
+                            <p>El servicio paso a estado {{item.status}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class=" text-center">
+        <button  (click)="viewList()"  *ngIf="currentService && currentService.HStatus.length>2" style="color: white; background-color: #4557bb;" mat-fab aria-label="MOSTRAR MAS">
+            <mat-icon>more_vert</mat-icon>
+        </button> 
+        <span *ngIf="currentService && currentService.HStatus.length>2 && timeLine==false"> Mostrar más</span>
+        <span *ngIf="currentService && currentService.HStatus.length>2 && timeLine==true"> Mostrar menos</span>
+    </div>
+    <div class="row" style="margin-top: 20px;">
         <div class="col-12">
             <!--  <div>
                 <qrcode class="text-center" [qrdata]="dateID" [size]="256" [level]="'M'" usesvg="true" [scale]="scale"
@@ -19,9 +47,7 @@
         </div>
         <div class="col-sm-12 col-md-6">
             <h2><b>Horario: </b> <span>{{currentService.timestamp | date:"h:mma"}}</span></h2>
-            <div class="row">
-                <h2><b>Estatus: </b> <span>{{currentService.status }}</span></h2>
-            </div>
+            <h2><b>Estatus: </b> <span>{{currentService.status }}</span></h2>
             <h2><b>Id Servicio: </b> <span>{{currentService.id}}</span></h2>
             <h2 *ngIf="currentService.asesor"><b>Asesor:</b> <span>{{currentService.asesor }}</span></h2>
             <h2 *ngIf="currentService.coments"><b>Comentarios Adicionales:</b> <span>{{currentService.coments }}</span></h2>
@@ -33,32 +59,7 @@
             <h2>No hay datos para mostrar</h2>
         </div>
     </div>
-
-    <div class="row" *ngIf="currentService && currentService.status=='waiting'">
-        <div class="col-12">
-            <div id="customer-buttons" class="col-12 text-center">
-                <button routerLink="/servicio/editar/{{dateID}}" mat-flat-button color="primary">Cambiar fecha</button>
-                <button mat-flat-button color="warn">Cancelar</button>
-            </div>
-        </div>
-    </div>
-    <div class="page">
-        <div class="timeline">
-            <div *ngFor="let item of currentService.HStatus" class="timeline__group">
-                <span class="timeline__year time" aria-hidden="true">{{item.timestamp | date}}</span>
-                <div class="timeline__cards">
-                    <div class="timeline__card card">
-                        <header class="card__header">
-                            <time class="time" datetime="2008-02-02">
-                                <span class="time__day">{{currentService.timestamp | date:"h:mma"}}</span>
-                            </time>
-                        </header>
-                        <div class="card__content">
-                            <p>El servicio paso a estado {{item.status}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class=" text-center" style="margin-bottom: 15px;">
+        <button (click)="ViewImages()" mat-flat-button color="primary">Ver imagenes del servicio</button>
     </div>
 </div>

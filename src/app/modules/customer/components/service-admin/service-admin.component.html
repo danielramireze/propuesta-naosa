@@ -1,5 +1,5 @@
 <div *ngIf="dateID" class="container">
-    <div class="row">
+    <div class="row" style="margin-top: 20px;">
         <div class="col-12">
             <!--  <div>
                 <qrcode class="text-center" [qrdata]="dateID" [size]="256" [level]="'M'" usesvg="true" [scale]="scale"
@@ -19,60 +19,63 @@
         </div>
         <div class="col-sm-12 col-md-6">
             <h2><b>Horario: </b> <span>{{currentService.timestamp | date:"h:mma"}}</span></h2>
-            <div class="row">
-                <h2><b>Estatus: </b> <span>{{currentService.status }}</span></h2>
-                <mat-form-field style="width:200px; margin-left: 15px;">
-                    <mat-label style="font-size: 15px;">Cambiar estado</mat-label>
-                    <mat-select style="min-width: 200px; min-height: 20px; font-size: 15px;">
-                        <mat-option [value]="status.name" *ngFor="let status of statusOptions"
-                            (click)="statusChange(status.name)">
-                            {{status.name}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+            <h2><b>Estatus: </b> <span>{{currentService.status }}</span></h2>
+            <mat-form-field style="width:200px; margin-left: 15px;">
+                <mat-label style="font-size: 15px;">Cambiar estado</mat-label>
+                <mat-select style="min-width: 200px; min-height: 20px; font-size: 15px;">
+                    <mat-option [value]="status.name" *ngFor="let status of statusOptions"
+                        (click)="statusChange(status.name)">
+                        {{status.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
             <h2><b>Id Servicio: </b> <span>{{currentService.id}}</span></h2>
             <h2 *ngIf="currentService.asesor"><b>Asesor:</b> <span>{{currentService.asesor }}</span></h2>
-            <h2 *ngIf="currentService.coments"><b>Comentarios Adicionales:</b> <p><span>{{currentService.coments }}</span></p>
-            </h2>
-            <div [formGroup]="form"  class="row" >
-                <h2><b>Comentarios</b></h2>
-                <mat-form-field appearance="fill" style="margin-left: 20px; width: 200px;">
-                    <mat-label>Textarea</mat-label>
-                    <textarea matInput  formControlName="coments"></textarea>
-                </mat-form-field>
-                <button (click)="comentsUpdate()" style="margin-left: 20px;" mat-flat-button color="primary">Actualizar los comentarios</button>
-            </div>
         </div>
     </div>
-
+    <h2 *ngIf=" currentService && currentService.coments" class="h1-title text-center"><b>Comentarios Adicionales:</b>
+        <p><span>{{currentService.coments }}</span></p>
+    </h2>
+    <div [formGroup]="form" class=" text-center">
+        <h2 class="text-center"><b>Comentarios</b></h2>
+        <mat-form-field appearance="fill" style="margin-left: 20px; width: 70%;">
+            <mat-label>Actualizacion</mat-label>
+            <textarea matInput formControlName="coments"></textarea>
+        </mat-form-field>
+        <button (click)="comentsUpdate()" style="margin-left: 20px;" mat-flat-button color="primary">Actualizar los
+            comentarios</button>
+    </div>
     <div class="row service-data" *ngIf="!currentService">
         <div class="col-sm-12 col-md-7">
             <h2>No hay datos para mostrar</h2>
         </div>
     </div>
-
-    <div class="row" *ngIf="currentService && currentService.status=='waiting'">
-        <div class="col-12">
-            <div id="customer-buttons" class="col-12 text-center">
-                <button routerLink="/servicio/editar/{{dateID}}" mat-flat-button color="primary">Cambiar fecha</button>
-                <button mat-flat-button color="warn">Cancelar</button>
-            </div>
-        </div>
-    </div>
-    <div class="page">
+    <ngx-dropzone (change)="onSelect($event)" style="margin-top: 20px;">
+        <ngx-dropzone-label>Arrastra las imagenes aqui o da click para buscar</ngx-dropzone-label>
+        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+        </ngx-dropzone-preview>
+    </ngx-dropzone>
+    <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f">
+        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+    </ngx-dropzone-image-preview>
+    <mat-slide-toggle class="text-center" style="margin-top: 20px;" [value]="false" (click)="viewList()">Mostrar linea
+        completa</mat-slide-toggle>
+    <div class="page" *ngIf="currentService">
         <div class="timeline">
-            <div *ngFor="let item of currentService.HStatus" class="timeline__group">
-                <span class="timeline__year time" aria-hidden="true">{{item.timestamp | date}}</span>
-                <div class="timeline__cards">
-                    <div class="timeline__card card">
-                        <header class="card__header">
-                            <time class="time" datetime="2008-02-02">
-                                <span class="time__day">{{currentService.timestamp | date:"h:mma"}}</span>
-                            </time>
-                        </header>
-                        <div class="card__content">
-                            <p>El servicio paso a estado {{item.status}}</p>
+            <div *ngFor="let item of currentService.HStatus let i=index" class="timeline__group">
+                <div *ngIf="i==currentService.HStatus.length-2 || i==currentService.HStatus.length-1 || timeLine==true">
+                    <span class="timeline__year time" aria-hidden="true">{{item.timestamp | date}}</span>
+                    <div class="timeline__cards">
+                        <div class="timeline__card card">
+                            <header class="card__header">
+                                <time class="time" datetime="2008-02-02">
+                                    <span class="time__day">{{item.timestamp | date:"h:mma"}}</span>
+                                </time>
+                            </header>
+                            <div class="card__content">
+                                <p>El servicio paso a estado {{item.status}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
